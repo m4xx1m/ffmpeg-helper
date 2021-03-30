@@ -88,7 +88,7 @@ if __name__ == '__main__':
     main()
     if rmvid:
         try:
-            shutil.rmtree('Videos', ignore_errors=False)
+            [os.remove(vid) for vid in v]
         except Exception as err:
             print(f'Error while deleting folder with video: {err}')
 
