@@ -6,16 +6,30 @@ import glob
 import string
 import random
 import subprocess
+import shutil
 
 threads = []
 processed = {}
 _isRunned = True
+sound = True
+rmvid = False
 
 if not os.path.exists('Completed'):
     os.mkdir('Completed')
 
-v = glob.glob('./*.mkv')
-s = glob.glob('Sound/*.mka')
+if not os.path.exists('Videos'):
+    os.mkdir('Videos')
+    print('Created folder with video, lol')
+    exit(-1)
+
+if sound:
+    if not os.path.exists('Sound'):
+        os.mkdir('Sound')
+        print('Created dir with sound, lol')
+        exit(-1)
+    s = glob.glob('Sound/*.mka')
+
+v = glob.glob('Videos/*.mkv')
 
 ffmpeg_command = 'ffmpeg -progress - -nostats -t 5 -c:v h264_cuvid -i \"{video}\" -i \"{sound}\" -c:v hevc_nvenc -b:v 6M -maxrate:v 8M -bufsize:v 6M -y -pix_fmt yuv420p -strict -2 -c:a copy -map 0:v -map 1:a:0 -movflags +faststart \".\Completed\{video}.mp4\"'
 
@@ -72,3 +86,9 @@ def main():
 if __name__ == '__main__':
     #threading.Thread(target=logger).start()
     main()
+    if rmvid:
+        try:
+            shutil.rmtree('Videos', ignore_errors=False)
+        except Exception as err:
+            print(f'Error while deleting folder with video: {err}')
+
