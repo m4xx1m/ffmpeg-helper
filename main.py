@@ -19,13 +19,13 @@ if not os.path.exists('Completed'):
 
 if not os.path.exists('Videos'):
     os.mkdir('Videos')
-    print('Created folder with video, lol')
+    print('Created folder with video')
     exit(-1)
 
 if sound:
     if not os.path.exists('Sound'):
         os.mkdir('Sound')
-        print('Created dir with sound, lol')
+        print('Created dir with sound')
         exit(-1)
     s = glob.glob('Sound/*.mka')
 
